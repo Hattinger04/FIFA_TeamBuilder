@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Team Builder for FIFA</title>
+     <script src="img/teams.js"></script>
+     <script src="img/players.js"></script>
+</head>
+<body>
+Press <b>F12</b> to see the results
+<br/><br/><br/><br/><br/>
+
+<select id="teams" onchange="change_teams">
+</select>
+
+<select id="team_members" onchange="change_player">
+</select>
+
+<img id="player_img">
+</img>
+
+<button id="add_to_team" onclick="add_to_team">Add to team</button>
+
+<select id="team_build" onchange="change_team_player">
+</select>
+
+<p>Speed</p>
+<div id="player_speed"></div>
+
+<p>Finishing</p>
+<div id="player_finishing"></div>
+
+<p>Agility</p>
+<div id="player_agility"></div>
+
+<p>Defending</p>
+<div id="player_defending"></div>
+
+<p>Dribbling</p>
+<div id="player_dribbling"></div>
+
+<p>Stamina</p>
+<div id="player_stamina"></div>
+
+<script>
+function change_teams(e)
+{
+    let teams_sel = e.target;
+    let t = teams_sel.options[teams_sel.selectedIndex].text;
+    let team_members_sel = document.getElementById("team_members");
+
+    let current_players = players.filter(p => p.Club === t);
+    team_members_sel.innerHTML = "";
+    current_players.forEach(d => team_members_sel.add(new Option(d.Name,d.ID)));
+}
+
+function change_player(e)
+{
+    let player_sel = e.target;
+    let t = player_sel.options[player_sel.selectedIndex].text;
+
+    let curr_player = players.find(p => p.Name === t);
+    
+    let player_img = document.getElementById("player_img");
+    player_img.src = curr_player.PhotoUrl;
+    
+    let player_speed = document.getElementById("player_speed");
+    player_speed.innerHTML = curr_player.PaceTotal;
+    
+    let player_finishing = document.getElementById("player_finishing");
+    player_finishing.innerHTML = curr_player.Finishing;
+    
+    let player_agility = document.getElementById("player_agility");
+    player_agility.innerHTML = curr_player.Agility;
+    
+    let player_defending = document.getElementById("player_defending");
+    player_defending.innerHTML = curr_player.DefendingTotal;
+
+    let player_dribbling = document.getElementById("player_dribbling");
+    player_dribbling.innerHTML = curr_player.Dribbling;
+
+    let player_stamina = document.getElementById("player_stamina");
+    player_stamina.innerHTML = curr_player.Stamina;
+
+}
+
+function add_to_team(e) {
+    let player_sel = document.getElementById("team_members"); 
+    let t = player_sel.options[player_sel.selectedIndex].text;
+
+    console.log(t); 
+    let team_build = document.getElementById("team_build");
+    team_build.add(new Option(player_sel.Name, player_sel.ID))
+}
+
+function change_team_player(e) {
+    let player_sel = e.target;
+    let v = player_sel.value;
+    let t = player_sel.options[player_sel.selectedIndex].text;
+
+}
+
+let teams_sel = document.getElementById("teams");
+teams.forEach(d => teams_sel.add(new Option(d.Name,d.ID)));
+teams_sel.addEventListener("change", change_teams);
+
+let team_members_sel = document.getElementById("team_members");
+team_members_sel.addEventListener("change", change_player);
+
+let add_to_team_btn = document.getElementById("team_build");
+add_to_team_btn.addEventListener("click", add_to_team);
+
+let team_build_sel = document.getElementById("team_build");
+team_build_sel.addEventListener("change", change_team_player);
+
+</script>
+</body>
+</html>
