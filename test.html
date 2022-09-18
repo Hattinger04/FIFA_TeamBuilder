@@ -7,7 +7,6 @@
      <script src="img/players.js"></script>
 </head>
 <body>
-Press <b>F12</b> to see the results
 <br/><br/><br/><br/><br/>
 
 <select id="teams" onchange="change_teams">
@@ -19,28 +18,45 @@ Press <b>F12</b> to see the results
 <img id="player_img">
 </img>
 
-<button id="add_to_team" onclick="add_to_team">Add to team</button>
+<table class="styled-table">
+    
+    <thead>
+        <tr>
+            <th>Speed</th>
+            <th>Finishing</th>
+            <th>Agility</th>
+            <th>Defending</th>
+            <th>Dribbling</th>
+            <th>Stamina</th>
+        </tr>
+    </thead>
+    <tbody>
+        <td><div id="player_speed"></div></td>
+            <td><div id="player_finishing"></div></div></div></td>
+            <td><div id="player_agility"></div></td>
+            <td><div id="player_defending"></div></td>
+            <td><div id="player_dribbling"></div></td>
+            <td><div id="player_stamina"></div></td>
+        </tbody>
+</table>
 
-<select id="team_build" onchange="change_team_player">
-</select>
 
-<p>Speed</p>
-<div id="player_speed"></div>
+<div style="margin-top: 10px;">
+    <button id="add_to_team1" onclick="add_to_team1">Add to team 1</button>
 
-<p>Finishing</p>
-<div id="player_finishing"></div>
+    <select id="team_build1" onchange="change_team_player">
+    </select>
 
-<p>Agility</p>
-<div id="player_agility"></div>
+    <button id="remove_from_team1" onclick="remove_from_team1">Remove from team 1</button>
 
-<p>Defending</p>
-<div id="player_defending"></div>
+    <button id="add_to_team2" onclick="add_to_team2">Add to team 2</button>
 
-<p>Dribbling</p>
-<div id="player_dribbling"></div>
+    <select id="team_build2" onchange="change_team_player">
+    </select>
 
-<p>Stamina</p>
-<div id="player_stamina"></div>
+    <button id="remove_from_team2" onclick="remove_from_team2">Remove from team 2</button>
+</div>
+
 
 <script>
 function change_teams(e)
@@ -84,20 +100,57 @@ function change_player(e)
 
 }
 
-function add_to_team(e) {
+function add_to_team1(e) {
     let player_sel = document.getElementById("team_members"); 
     let t = player_sel.options[player_sel.selectedIndex].text;
 
-    console.log(t); 
-    let team_build = document.getElementById("team_build");
-    team_build.add(new Option(player_sel.Name, player_sel.ID))
+    let team_build1 = document.getElementById("team_build1");
+    let team_build2 = document.getElementById("team_build2");
+    if(!(optionExists(team_build1, t) || optionExists(team_build2, t))) {
+        team_build1.add(new Option(t));
+    }    
+}
+
+function add_to_team2(e) {
+    let player_sel = document.getElementById("team_members"); 
+    let t = player_sel.options[player_sel.selectedIndex].text;
+
+    let team_build1 = document.getElementById("team_build1");
+    let team_build2 = document.getElementById("team_build2");
+    if(!(optionExists(team_build1, t) || optionExists(team_build2, t))) {
+        team_build2.add(new Option(t));
+    }
+     
+}
+
+
+function remove_from_team1(e) {
+    let team_build = document.getElementById("team_build1"); 
+    team_build.remove(team_build.selectedIndex);
+}
+
+function remove_from_team2(e) {
+    let team_build = document.getElementById("team_build2"); 
+    team_build.remove(team_build.selectedIndex);
 }
 
 function change_team_player(e) {
     let player_sel = e.target;
     let v = player_sel.value;
     let t = player_sel.options[player_sel.selectedIndex].text;
+}
 
+
+  /**
+   * @param {HTMLSelectElement} selectElement
+   * @param {string} optionValue
+   * @return {boolean}
+   */
+function optionExists(selectElement, optionValue) {
+      return !!Array.prototype.find.call(selectElement.options, function(option) {
+          return option.value === optionValue;
+      }
+  )
 }
 
 let teams_sel = document.getElementById("teams");
@@ -107,11 +160,26 @@ teams_sel.addEventListener("change", change_teams);
 let team_members_sel = document.getElementById("team_members");
 team_members_sel.addEventListener("change", change_player);
 
-let add_to_team_btn = document.getElementById("team_build");
-add_to_team_btn.addEventListener("click", add_to_team);
 
-let team_build_sel = document.getElementById("team_build");
-team_build_sel.addEventListener("change", change_team_player);
+let add_to_team1_btn = document.getElementById("add_to_team1");
+add_to_team1_btn.addEventListener("click", add_to_team1);
+
+let team_build1_sel = document.getElementById("team_build1");
+team_build1_sel.addEventListener("change", change_team_player);
+
+let remove_from_team1_btn = document.getElementById("remove_from_team1");
+remove_from_team1_btn.addEventListener("click", remove_from_team1);
+
+
+let add_to_team2_btn = document.getElementById("add_to_team2");
+add_to_team2_btn.addEventListener("click", add_to_team2);
+
+let team_build2_sel = document.getElementById("team_build2");
+team_build2_sel.addEventListener("change", change_team_player);
+
+let remove_from_team2_btn = document.getElementById("remove_from_team2");
+remove_from_team2_btn.addEventListener("click", remove_from_team2);
+
 
 </script>
 </body>
